@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#111126" />
+  <meta name="description" content="Party Showdown — a real-time multiplayer mini-game battle for 2 to 8 players." />
+  <title>Party Showdown</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Party Showdown home">
+      <span class="brand-mark">✦</span>
+      <span>PARTY<span class="brand-accent">SHOWDOWN</span></span>
+    </a>
+    <div class="connection-pill"><span id="connection-dot" class="connection-dot"></span><span id="connection-label">Connecting</span></div>
+  </header>
+
+  <main>
+    <section id="home-screen" class="screen active">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> THE MULTIPLAYER PARTY ARCADE</div>
+        <h1>One room.<br><span>Seven showdowns.</span></h1>
+        <p class="hero-description">Bring your friends, grab a code, and find out who has the quickest fingers, sharpest brain, and best memory.</p>
+        <div class="hero-facts"><span>⚡ 2–8 players</span><span>◷ 5–8 minutes</span><span>▦ Any device</span></div>
+      </div>
+      <div class="entry-grid">
+        <article class="entry-card create-card">
+          <div class="card-symbol purple-symbol">✦</div>
+          <div class="card-kicker">PLAY TOGETHER</div>
+          <h2>Create a room</h2>
+          <p>Start a private game and invite your crew with a room code.</p>
+          <form id="create-form" class="entry-form">
+            <label for="create-name">Your nickname</label>
+            <input id="create-name" maxlength="16" placeholder="e.g. PixelNinja" autocomplete="nickname" required />
+            <button class="primary-button full-button" type="submit">Create room <span>↗</span></button>
+          </form>
+        </article>
+        <article class="entry-card join-card">
+          <div class="card-symbol cyan-symbol">⌁</div>
+          <div class="card-kicker">GOT AN INVITE?</div>
+          <h2>Join a room</h2>
+          <p>Enter your friend's room code and jump into the lobby.</p>
+          <form id="join-form" class="entry-form">
+            <label for="join-name">Your nickname</label>
+            <input id="join-name" maxlength="16" placeholder="Choose a nickname" autocomplete="nickname" required />
+            <label for="room-code-input">Room code</label>
+            <input id="room-code-input" class="code-input" maxlength="6" placeholder="ABC123" autocomplete="off" required />
+            <button class="secondary-button full-button" type="submit">Join the party <span>→</span></button>
+          </form>
+        </article>
+      </div>
+      <div class="mini-game-strip"><span class="strip-label">IN THE LINEUP</span><span>⚡ Reaction Rush</span><i></i><span>🧠 Brain Blitz</span><i></i><span>🎯 Odd One Out</span><i></i><span>＋ 4 more</span></div>
+    </section>
+
+    <section id="lobby-screen" class="screen">
+      <div class="section-heading">
+        <div><div class="eyebrow"><span class="eyebrow-dot"></span> YOUR PRIVATE GAME</div><h1>Waiting room<span class="heading-period">.</span></h1><p class="muted">Share the code and get everyone ready to play.</p></div>
+        <button id="leave-lobby-button" class="ghost-button">← Leave room</button>
+      </div>
+      <div class="lobby-layout">
+        <article class="room-code-card">
+          <div class="card-kicker">ROOM CODE · SHARE WITH FRIENDS</div>
+          <div class="room-code-row"><div id="room-code-display" class="room-code">------</div><button id="copy-code-button" class="copy-button" aria-label="Copy room code">▣</button></div>
+          <div id="copy-hint" class="copy-hint">Anyone with this code can join while the lobby is open.</div>
+          <div class="code-bottom"><span class="live-pulse"></span> ROOM OPEN <span class="code-separator">·</span> <span id="player-count">1 / 8 PLAYERS</span></div>
+        </article>
+        <article class="players-card">
+          <div class="players-card-heading"><div><div class="card-kicker">THE CREW</div><h2>Players <span id="players-heading-count" class="count-chip">1</span></h2></div><span class="muted tiny-label">MAX 8</span></div>
+          <div id="player-list" class="player-list"></div>
+          <div class="lobby-actions">
+            <button id="ready-button" class="secondary-button">I'm ready ✓</button>
+            <button id="start-button" class="primary-button" disabled>Start showdown <span>→</span></button>
+          </div>
+          <p id="lobby-status" class="lobby-status">At least 2 players must join. Everyone needs to be ready.</p>
+        </article>
+      </div>
+      <div class="lineup-card"><div class="lineup-header"><span class="card-kicker">TONIGHT'S LINEUP</span><span class="muted tiny-label">7 ROUNDS · 1 CHAMPION</span></div><div id="lobby-game-lineup" class="lineup-list"></div></div>
+    </section>
+
+    <section id="game-screen" class="screen">
+      <div class="game-topline"><div class="round-progress-label"><span id="round-number-label">ROUND 1 / 7</span><span class="round-progress-track"><span id="round-progress-fill"></span></span></div><button id="leave-game-button" class="ghost-button small-ghost">Leave game</button></div>
+      <div class="game-layout">
+        <section class="play-column">
+          <article class="game-heading-card">
+            <div class="game-heading-meta"><span id="game-category" class="category-tag">SPEED</span><span id="round-timer" class="timer-chip">00:12</span></div>
+            <h1 id="game-title">Reaction Rush</h1>
+            <p id="game-instructions" class="muted">Wait for the screen to turn green...</p>
+          </article>
+          <article id="game-stage" class="game-stage">
+            <div class="stage-placeholder"><div class="stage-spinner"></div><p>Getting the next challenge ready…</p></div>
+          </article>
+          <div id="round-feedback" class="round-feedback" aria-live="polite"></div>
+          <article id="round-result-card" class="round-result-card hidden"></article>
+        </section>
+        <aside class="score-column">
+          <article class="score-card"><div class="players-card-heading"><div><div class="card-kicker">LIVE SCORES</div><h2>Leaderboard</h2></div><span class="live-pill"><span class="live-pulse"></span> LIVE</span></div><div id="game-leaderboard" class="game-leaderboard"></div></article>
+          <div class="score-tip"><span>✦</span><div><strong>Every point counts</strong><p>Finish each round to climb the leaderboard. A different skill can win every time.</p></div></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="final-screen" class="screen">
+      <div class="final-hero"><div class="final-confetti">✦　✧　✦</div><div class="eyebrow"><span class="eyebrow-dot"></span> THAT'S A WRAP</div><h1 id="final-title">We have a champion!</h1><p id="final-subtitle" class="muted">Seven rounds. One legendary winner.</p></div>
+      <article id="winner-card" class="winner-card"></article>
+      <article class="final-board-card"><div class="players-card-heading"><div><div class="card-kicker">FINAL STANDINGS</div><h2>The leaderboard</h2></div><span class="muted tiny-label">AFTER 7 ROUNDS</span></div><div id="final-leaderboard" class="final-leaderboard"></div></article>
+      <div class="final-actions"><button id="play-again-button" class="primary-button">Back to home <span>↗</span></button><span class="muted tiny-label">Create a new room for another showdown.</span></div>
+    </section>
+  </main>
+
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+  <div id="leave-modal" class="modal-backdrop hidden"><div class="modal-card"><div class="card-symbol purple-symbol">↩</div><h2>Leave this game?</h2><p class="muted">Your place in this match will be marked as disconnected.</p><div class="modal-actions"><button id="cancel-leave-button" class="ghost-button">Stay here</button><button id="confirm-leave-button" class="danger-button">Leave room</button></div></div></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
